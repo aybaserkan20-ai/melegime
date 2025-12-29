@@ -39,14 +39,14 @@ body {
     overflow: hidden;
     margin-bottom: 20px;
     border: 2px solid #ff4d6d;
-    box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+    background: #000;
 }
 
 .photo-area img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease, opacity 0.5s;
+    object-fit: contain;
+    transition: opacity 0.5s;
 }
 
 h1 { font-family: 'Dancing Script', cursive; color: #ff85a1; font-size: 2.2rem; margin: 10px 0; }
@@ -66,18 +66,10 @@ button {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-#yes {
-    background: linear-gradient(45deg, #ff4d6d, #ff85a1);
-    color: white;
-}
-
-#no {
-    background: rgba(255, 255, 255, 0.1);
-    color: #eee;
-}
+#yes { background: linear-gradient(45deg, #ff4d6d, #ff85a1); color: white; }
+#no { background: rgba(255, 255, 255, 0.1); color: #eee; }
 
 .heart {
     position: fixed;
@@ -87,32 +79,16 @@ button {
 }
 
 @keyframes float {
-    from { transform: translateY(100vh) scale(1); opacity: 1; }
-    to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-}
-
-#progress-bar {
-    width: 100%;
-    height: 4px;
-    background: rgba(255,255,255,0.1);
-    margin-bottom: 15px;
-    border-radius: 2px;
-}
-
-#progress {
-    width: 15%;
-    height: 100%;
-    background: #ff4d6d;
-    transition: 0.5s;
+    from { transform: translateY(100vh); opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
 <body>
 
 <div class="container" id="mainBox">
-    <div id="progress-bar"><div id="progress"></div></div>
     <div class="photo-area">
-        <img id="displayImg" src="https://i.ibb.co/Lz0D679M/image.png">
+        <img id="displayImg" src="https://images2.imgbox.com/39/9b/LndW1V1U_o.png">
     </div>
     <h1 id="title">Sevgilim... ✨</h1>
     <h2 id="question">Bu güzel gülüşün her zaman benimle olsun mu? 😊</h2>
@@ -124,50 +100,42 @@ button {
 </div>
 
 <script>
+// Resimlerin kesin çalışması için linkleri güncelledim
 const photos = [
-    "https://i.ibb.co/Lz0D679M/image.png", 
-    "https://i.ibb.co/G4vj7LqR/image.png",
-    "https://i.ibb.co/m56vX8vF/image.png",
-    "https://i.ibb.co/V08pYmP5/image.png",
-    "https://i.ibb.co/3ykG8vP0/image.png",
-    "https://i.ibb.co/k2D6B0F9/image.png"
+    "https://images2.imgbox.com/39/9b/LndW1V1U_o.png", 
+    "https://images2.imgbox.com/0d/9e/nEnS6RVs_o.png",
+    "https://images2.imgbox.com/97/8f/S1N5hN8C_o.png",
+    "https://images2.imgbox.com/3d/8d/fK2p2f2f_o.png",
+    "https://images2.imgbox.com/2a/3b/XmZ6lP9u_o.png"
 ];
 
 const logic = [
-    { q: "Bu güzel gülüşün her zaman benimle olsun mu? 😊", y: "Sonsuza kadar EVET! 😍", n: "Hımm, bilemedim... 😜" },
-    { q: "Peki, dünyadaki en tatlı kıvırcık saçlı kim? 🌀", y: "Tabii ki benim! 💖", n: "Erkan'a sormak lazım... 🤔" },
-    { q: "Şu an yanında olsaydım, bana bir öpücük verir miydin? 💋", y: "Hem de en kocamanından! 😘", n: "Kaçmam lazım! 🏃‍♀️" },
-    { q: "Gördüğün en şanslı adam Erkan olabilir mi? ✨", y: "Çünkü senin gibi birine sahip! ❤️", n: "Daha neler... 😂" },
-    { q: "Seni her gün biraz daha fazla sevdiğime inanıyor musun? 💖", y: "Biliyorum ve ben de seni! 🥰", n: "İspatlaman lazım... 😏" }
+    { q: "Bu güzel gülüşün her zaman benimle olsun mu? 😊" },
+    { q: "Peki, dünyanın en tatlı kıvırcığı kim? 🌀" },
+    { q: "Bana bir öpücük verir miydin? 💋" },
+    { q: "Seni her gün daha çok sevdiğime inanıyor musun? 💖" }
 ];
 
 let step = 0;
-let size = 16;
-
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const qText = document.getElementById("question");
 const img = document.getElementById("displayImg");
-const prog = document.getElementById("progress");
 
 function createHeart() {
     const h = document.createElement("div");
     h.className = "heart";
     h.innerHTML = "❤️";
     h.style.left = Math.random() * 100 + "vw";
-    h.style.fontSize = (Math.random() * 20 + 10) + "px";
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 4000);
 }
-
 setInterval(createHeart, 400);
 
 noBtn.onmouseover = () => {
     noBtn.style.position = "fixed";
     noBtn.style.left = Math.random() * 80 + "vw";
     noBtn.style.top = Math.random() * 80 + "vh";
-    size += 12;
-    yesBtn.style.fontSize = size + "px";
 };
 
 yesBtn.onclick = () => {
@@ -175,26 +143,19 @@ yesBtn.onclick = () => {
     if (step < logic.length) {
         img.style.opacity = "0";
         setTimeout(() => {
-            img.src = photos[step % photos.length];
+            img.src = photos[step];
             qText.innerText = logic[step].q;
-            yesBtn.innerText = logic[step].y;
-            noBtn.innerText = logic[step].n;
             img.style.opacity = "1";
             noBtn.style.position = "static";
-            size = 16;
-            yesBtn.style.fontSize = "16px";
-        }, 400);
-        prog.style.width = ((step + 1) / logic.length) * 100 + "%";
+        }, 300);
     } else {
         document.getElementById("mainBox").innerHTML = `
             <div class="photo-area" style="height:350px;">
-                <img src="${photos[4]}">
+                <img src="${photos[2]}">
             </div>
             <h1>Seni Çok Seviyorum Meleğim ❤️</h1>
-            <p>Sen benim dünyamın en parlak yıldızısın.</p>
-            <div style="font-size: 50px;">💎💍🧸🌹</div>
+            <p>Sen benim dünyamsın.</p>
         `;
-        setInterval(createHeart, 100);
     }
 };
 </script>
