@@ -3,131 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seni Seviyorum 💖</title>
+<title>Seni Seviyorum ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
-
-body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at center, #1a1a2e 0%, #020205 100%);
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    color: white;
-}
-
-.container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    padding: 25px;
-    border-radius: 30px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    z-index: 10;
-}
-
-.photo-area {
-    width: 100%;
-    height: 300px;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    border: 2px solid #ff4d6d;
-    background: #000;
-}
-
-.photo-area img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: opacity 0.5s;
-}
-
-h1 { font-family: 'Dancing Script', cursive; color: #ff85a1; font-size: 2.2rem; margin: 10px 0; }
-h2 { font-size: 1.1rem; color: #ffd1dc; min-height: 60px; font-weight: 400; }
-
-.btn-group {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-#yes { background: linear-gradient(45deg, #ff4d6d, #ff85a1); color: white; }
+body { margin: 0; height: 100vh; background: radial-gradient(circle at center, #1a1a2e 0%, #020205 100%); font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; overflow: hidden; color: white; }
+.container { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); padding: 25px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 10; }
+.photo-area { width: 100%; height: 280px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 2px solid #ff4d6d; background: #000; }
+.photo-area img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+h1 { font-family: 'Dancing Script', cursive; color: #ff85a1; font-size: 2rem; margin: 10px 0; }
+h2 { font-size: 1rem; color: #ffd1dc; min-height: 50px; font-weight: 400; line-height: 1.4; }
+.btn-group { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+button { padding: 12px 25px; border: none; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+#yes { background: linear-gradient(45deg, #ff4d6d, #ff85a1); color: white; box-shadow: 0 5px 15px rgba(255,77,109,0.4); }
 #no { background: rgba(255, 255, 255, 0.1); color: #eee; }
-
-.heart {
-    position: fixed;
-    font-size: 20px;
-    pointer-events: none;
-    animation: float 4s linear forwards;
-}
-
-@keyframes float {
-    from { transform: translateY(100vh); opacity: 1; }
-    to { transform: translateY(-10vh); opacity: 0; }
-}
+.heart { position: fixed; font-size: 20px; pointer-events: none; animation: float 4s linear forwards; }
+@keyframes float { from { transform: translateY(100vh); opacity: 1; } to { transform: translateY(-10vh); opacity: 0; } }
 </style>
 </head>
 <body>
 
 <div class="container" id="mainBox">
-    <div class="photo-area">
-        <img id="displayImg" src="https://images2.imgbox.com/39/9b/LndW1V1U_o.png">
-    </div>
-    <h1 id="title">Sevgilim... ✨</h1>
-    <h2 id="question">Bu güzel gülüşün her zaman benimle olsun mu? 😊</h2>
-    
+    <div class="photo-area"><img id="displayImg" src="https://pixeldrain.com/api/file/vWq1mAnX"></div>
+    <h1 id="title">Hazır mısın Meleğim? ✨</h1>
+    <h2 id="question">Senin için 10 soruluk küçük bir testim var. Başlayalım mı? 😊</h2>
     <div class="btn-group">
-        <button id="yes">Sonsuza kadar EVET! 😍</button>
-        <button id="no">Biraz düşünmem lazım... 😜</button>
+        <button id="yes">Evet, Başlayalım! ❤️</button>
+        <button id="no">Hayır 😜</button>
     </div>
 </div>
 
+<audio id="popSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+<audio id="applauseSound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+
 <script>
-// Resimlerin kesin çalışması için linkleri güncelledim
 const photos = [
-    "https://images2.imgbox.com/39/9b/LndW1V1U_o.png", 
-    "https://images2.imgbox.com/0d/9e/nEnS6RVs_o.png",
-    "https://images2.imgbox.com/97/8f/S1N5hN8C_o.png",
-    "https://images2.imgbox.com/3d/8d/fK2p2f2f_o.png",
-    "https://images2.imgbox.com/2a/3b/XmZ6lP9u_o.png"
+    "https://pixeldrain.com/api/file/vWq1mAnX", 
+    "https://pixeldrain.com/api/file/pLre7f5N",
+    "https://pixeldrain.com/api/file/m2S3v2u6",
+    "https://pixeldrain.com/api/file/8vD9m6qN"
 ];
 
 const logic = [
-    { q: "Bu güzel gülüşün her zaman benimle olsun mu? 😊" },
-    { q: "Peki, dünyanın en tatlı kıvırcığı kim? 🌀" },
-    { q: "Bana bir öpücük verir miydin? 💋" },
-    { q: "Seni her gün daha çok sevdiğime inanıyor musun? 💖" }
+    { q: "1) Bu dünyada en çok kime güveniyorsun? (İpucu: Ben! 😂)", y: "Tabii ki sana! ❤️" },
+    { q: "2) Peki, en sevdiğin kıvırcık saçlı yakışıklı kim? 🌀", y: "Sensin aşkım! 😍" },
+    { q: "3) Şu an yanında olsaydım bana sarılır mıydın? 🤗", y: "Sıkıca sarılırdım! 🤗" },
+    { q: "4) Sence biz birbirimiz için mi yaratıldık? ✨", y: "Kesinlikle evet! ✨" },
+    { q: "5) Beni ne kadar çok seviyorsun? 📏", y: "Dünyalar kadar! 🌎" },
+    { q: "6) Kavga etsek bile hep barışalım mı? 🤝", y: "Asla küs kalamayız! ❤️" },
+    { q: "7) En sevdiğin anımız bu fotoğraflardaki mi? 📸", y: "Hepsi çok özel! 🥰" },
+    { q: "8) Ömrünün sonuna kadar elimi tutar mısın? 🤝", y: "Asla bırakmam! 😍" },
+    { q: "9) Sence ben çok şanslı bir adam mıyım? 🍀", y: "Çünkü ben seninleyim! 🍀" },
+    { q: "10) Ve son soru... Benimle yaşlanmaya var mısın? ❤️", y: "Sonsuza kadar EVET! 💍" }
 ];
 
-let step = 0;
+let step = -1; 
+let yesSize = 16;
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const qText = document.getElementById("question");
 const img = document.getElementById("displayImg");
+const popSound = document.getElementById("popSound");
+const applauseSound = document.getElementById("applauseSound");
 
 function createHeart() {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "❤️";
-    h.style.left = Math.random() * 100 + "vw";
-    document.body.appendChild(h);
+    const h = document.createElement("div"); h.className = "heart"; h.innerHTML = "❤️";
+    h.style.left = Math.random() * 100 + "vw"; document.body.appendChild(h);
     setTimeout(() => h.remove(), 4000);
 }
 setInterval(createHeart, 400);
@@ -136,27 +77,37 @@ noBtn.onmouseover = () => {
     noBtn.style.position = "fixed";
     noBtn.style.left = Math.random() * 80 + "vw";
     noBtn.style.top = Math.random() * 80 + "vh";
+    yesSize += 8;
+    yesBtn.style.fontSize = yesSize + "px";
 };
 
 yesBtn.onclick = () => {
     step++;
+    
+    // Her evet dediğinde konfeti patlat ve ses çal
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ff85a1', '#ffffff'] });
+    popSound.play().catch(e => console.log("Ses çalma hatası"));
+
     if (step < logic.length) {
-        img.style.opacity = "0";
-        setTimeout(() => {
-            img.src = photos[step];
-            qText.innerText = logic[step].q;
-            img.style.opacity = "1";
-            noBtn.style.position = "static";
-        }, 300);
+        document.getElementById("title").innerText = "Meleğime Sorular... ✨";
+        img.src = photos[step % photos.length];
+        qText.innerText = logic[step].q;
+        yesBtn.innerText = logic[step].y;
+        noBtn.innerText = "Hayır 😜";
+        noBtn.style.position = "static";
+        yesSize = 16;
+        yesBtn.style.fontSize = "16px";
     } else {
-        
+        // FİNAL EKRANI
+        applauseSound.play().catch(e => console.log("Ses çalma hatası"));
         document.getElementById("mainBox").innerHTML = `
-            <div class="photo-area" style="height:350px;">
-                <img src="${photos[2]}">
-            </div>
-            <h1>Seni Çok Seviyorum Meleğim ❤️</h1>
-            <p>Sen benim dünyamsın.</p>
+            <div class="photo-area" style="height:350px;"><img src="${photos[0]}"></div>
+            <h1>TEBRİKLER MELEĞİM! 🎉</h1>
+            <h2 style="font-size:1.2rem">Bütün soruları doğru bildin ve kalbimi tekrar kazandın! ❤️</h2>
+            <p>Seni her şeyden çok seviyorum. Sen benim başıma gelen en güzel şeysin. 🧸💍🌹</p>
+            <button onclick="location.reload()" style="background:#ff4d6d; color:white; border:none; padding:10px 20px; border-radius:20px; margin-top:10px;">Tekrar Oyna ❤️</button>
         `;
+        confetti({ particleCount: 500, spread: 160, origin: { y: 0.5 } });
     }
 };
 </script>
